@@ -1,25 +1,23 @@
-# Deep Learning Nodes for ROS/ROS2
-This repo contains deep learning inference nodes and camera/video streaming nodes for ROS/ROS2 with support for Jetson Nano/TX1/TX2/Xavier NX/AGX Xavier and TensorRT.
+# DNN Inference Nodes for ROS/ROS2
+This repo contains DNN inference nodes and camera/video streaming nodes for ROS/ROS2 with support for NVIDIA **[Jetson Nano / TX1 / TX2 / Xavier / Orin](https://developer.nvidia.com/embedded-computing)** devices and TensorRT.
 
-The nodes use the image recognition, object detection, and semantic segmentation DNN's from the [`jetson-inference`](https://github.com/dusty-nv/jetson-inference) library and NVIDIA [Hello AI World](https://developer.nvidia.com/embedded/twodaystoademo) tutorial, which come with several built-in pretrained networks for classification, detection, and segmentation and the ability to load customized user-trained models.
+The nodes use the image recognition, object detection, and semantic segmentation DNN's from the [`jetson-inference`](https://github.com/dusty-nv/jetson-inference) library and NVIDIA [Hello AI World](https://github.com/dusty-nv/jetson-inference#hello-ai-world) tutorial, which come with several built-in pretrained networks for classification, detection, and segmentation and the ability to load customized user-trained models.
 
-The camera/video streaming nodes support the following input/output interfaces:
+The camera & video streaming nodes support the following [input/output interfaces](https://github.com/dusty-nv/jetson-inference/blob/master/docs/aux-streaming.md):
 
 * MIPI CSI cameras
 * V4L2 cameras
-* RTP / RTSP
+* RTP / RTSP streams
+* WebRTC streams
 * Videos & Images
 * Image sequences
 * OpenGL windows
 
-ROS Melodic and ROS2 Eloquent are supported, and the latest version of JetPack is recommended.
+Various distribution of ROS are supported either from source or through containers (including Melodic, Noetic, Foxy, Galactic, and Humble), and the latest version of JetPack is recommended.
 
 ### Table of Contents
 
 * [Installation](#installation)
-	* [jetson-inference](#jetson-inference)
-	* [ROS/ROS2](#rosros2)
-	* [ros_deep_learning](#ros_deep_learning-1)
 * [Testing](#testing)
 	* [Video Viewer](#video-viewer)
 	* [imagenet Node](#imagenet-node)
@@ -34,9 +32,20 @@ ROS Melodic and ROS2 Eloquent are supported, and the latest version of JetPack i
 
 ## Installation
 
-First, install the latest version of [JetPack](https://developer.nvidia.com/embedded/jetpack) on your Jetson.
+The easiest way to get up and running is by running one of the containers that is already built with ROS/ROS2, jetson-inference, and the ros_deep_learning package pre-installed:
 
-Then, follow the steps below to install the needed components on your Jetson.
+``` bash
+git clone https://github.com/dusty-nv/ros_deep_learning
+cd ros_deep_learning
+docker/run.sh --ros=foxy
+```
+
+The `--ros` argument to the [`docker/run.sh`](docker/run.sh) script selects the ROS distro to use (the default is Foxy).  Containers with ros_deep_learning are available for Noetic, Foxy, Galactic, and Humble.  They use the `ros:$ROS_DISTRO-pytorch-l4t-*` container images built from [jetson-containers](https://github.com/dusty-nv/jetson-containers).
+
+For previous information about building the ros_deep_learning package for an uncontainerized ROS installation, expand the section below (the parts about installing ROS may require adapting for the particular version of ROS/ROS2 that you want to install)
+
+<details>
+<summary>Legacy Install Instructions</summary>
 
 ### jetson-inference
 
@@ -112,6 +121,8 @@ $ source install/local_setup.bash
 ```
 
 The nodes should now be built and ready to use.  Remember to source the overlay as shown above so that ROS can find the nodes.
+
+</details>
 
 ## Testing
 
